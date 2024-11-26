@@ -23,12 +23,10 @@ exports.getTodo = asyncHandler(async (req, res) => {
             const result = await Todo.find()
             await redis.set(todo, JSON.stringify(result))
             await redis.expire(todo, 10)
-            // await redis.set(todo, JSON.stringify(result))
             value = await redis.get(todo)
             console.log(JSON.parse(value), "Data From DataBase")
         }
         const parseData = JSON.parse(value)
-        // console.log('Value from Redis:', parseData)
         res.json({ message: "Fetch Successs", result: parseData })
     } catch (err) {
         console.error('Error interacting with Redis:', err)
