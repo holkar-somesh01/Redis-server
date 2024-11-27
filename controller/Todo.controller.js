@@ -4,7 +4,8 @@ const { redis } = require("../utils/redis")
 const cron = require('node-cron')
 
 exports.AddTodo = asyncHandler(async (req, res) => {
-    await Todo.create(req.body)
+    const { name, desc } = req.body
+    await Todo.create({ name, desc })
     res.json({ message: "Create Successs" })
 })
 exports.getTodo = asyncHandler(async (req, res) => {

@@ -22,7 +22,9 @@ app.use((err, req, res, next) => {
     if (err.status === 429) {
         return res.status(429).json({ status: 429, message: "you can only add 2 todos per minute. Plaese try again later" })
     }
-    res.status(500).json({ message: "Something went wrong" })
+    console.log(err)
+
+    res.status(500).json({ message: "Something went wrong", err })
 })
 mongoose.connection.once("open", () => {
     console.log("MONGO CONNECTED!");
