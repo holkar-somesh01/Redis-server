@@ -14,13 +14,11 @@ exports.getTodo = asyncHandler(async (req, res) => {
         const exists = await redis.exists(todo)
         let value
         if (exists) {
-            console.log("***TRUE****")
             value = await redis.get(todo)
             await redis.expire(todo, 10)
             console.log(value, "Data From Direct Redis")
 
         } else {
-            console.log("***False****")
             const result = await Todo.find()
             await redis.set(todo, JSON.stringify(result))
             await redis.expire(todo, 10)
