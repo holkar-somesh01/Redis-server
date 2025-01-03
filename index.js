@@ -11,7 +11,6 @@ app.use(express.json());
 redis.on('connect', () => {
     console.log("Connected to Redis!");
 })
-mongoose.connect(process.env.MONGO_URL)
 
 app.use("/api", require("./routes/todo.routes"))
 
@@ -23,9 +22,9 @@ app.use((err, req, res, next) => {
         return res.status(429).json({ status: 429, message: "you can only add 2 todos per minute. Plaese try again later" })
     }
     console.log(err)
-
-    res.status(500).json({ message: "Something went wrong", err })
+    res.status(500).json({ status: 500, message: "Something went wrong", err })
 })
+mongoose.connect(process.env.MONGO_URL)
 mongoose.connection.once("open", () => {
     console.log("MONGO CONNECTED!");
     app.listen(process.env.PORT, console.log("SERVER RUNNING🏃‍♂️"))
